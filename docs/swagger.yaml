@@ -1,0 +1,163 @@
+definitions:
+  models.AuthReq:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  models.TestReq:
+    properties:
+      data:
+        type: boolean
+    required:
+    - data
+    type: object
+info:
+  contact: {}
+  description: an Auth REST API service using Swagger with Gin-Gonic.
+  title: Amit Kaushik Auth API-Assignment
+  version: "1.0"
+paths:
+  /api/v1/refresh-token:
+    get:
+      description: Responds with Refresh Token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Refresh Token Handler
+      tags:
+      - Refresh Token
+  /api/v1/revoke-token:
+    delete:
+      description: Revoke Token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Revoke Token Handler
+      tags:
+      - Revoke Token
+  /api/v1/signin:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user and returns access token
+      parameters:
+      - description: User credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/models.AuthReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: User Sign-in
+      tags:
+      - Authentication
+  /api/v1/signup:
+    post:
+      consumes:
+      - application/json
+      description: Creates New User
+      parameters:
+      - description: User credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/models.AuthReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: User Sign-up
+      tags:
+      - Authentication
+  /api/v1/status:
+    get:
+      description: Responds with "version"
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Status Handler
+      tags:
+      - Status
+  /api/v1/test-req:
+    post:
+      description: Test Req
+      parameters:
+      - description: User req
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/models.TestReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Test Req Handler
+      tags:
+      - Test Req Data
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
